@@ -10,19 +10,19 @@ public void ConfigureServices(IServiceCollection services)
 
     // Register the IRedirectsDataProvider service 
     services.AddScoped<IRedirectsDataProvider>(sp =>
-	    new RedirectsDataProvider(
-		    sp.GetRequiredService<HttpClient>(),
-		    "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json",
-		    sp.GetRequiredService<ILogger<RedirectsDataProvider>>())
+        new RedirectsDataProvider(
+            sp.GetRequiredService<HttpClient>(),
+            sp.GetRequiredService<ILogger<RedirectsDataProvider>>(),
+            "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json")
     );
 
     // Configure redirect service
     services.AddRedirectMiddleware(settings =>
     {
         // Configure redirect middleware options
-	    settings.Enabled = true;
-	    settings.CacheDurationInMinutes = 1;
-	});
+        settings.Enabled = true;
+        settings.CacheDurationInMinutes = 1;
+    });
 
     ... 
 }
