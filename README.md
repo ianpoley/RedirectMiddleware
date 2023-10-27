@@ -12,9 +12,9 @@ public void ConfigureServices(IServiceCollection services)
     services.AddRedirectMiddleware(settings =>
     {
       // Set options
+      settings.SourceUrl = "https://path.to.com/redirects.json"; // Required
       settings.Enabled = true;
       settings.CacheDurationInMinutes = 1;
-      settings.SourceUrl = "https://path.to.com/redirects.json";
     });
 
     ... 
