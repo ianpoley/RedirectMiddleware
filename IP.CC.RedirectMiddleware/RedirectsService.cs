@@ -49,6 +49,7 @@ public class RedirectsService : IRedirectsService
 
     private async Task<IList<RedirectRule>> GetDataFromRestApi()
     {
+        // Throw an exception if the source url is blank
 	    if (string.IsNullOrEmpty(Settings.SourceUrl))
 	    {
 		    throw new ArgumentException("The SourceUrl cannot be null or empty.", nameof(Settings.SourceUrl));
