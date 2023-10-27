@@ -36,7 +36,7 @@
 			@foreach (var rule in Model.RedirectRules)
 			{
 				<li>
-					<a href="@rule.RedirectUrl" target="_blank">@rule.RedirectUrl</a>
+					<a href="@rule.RedirectUrl">@rule.RedirectUrl</a>
 					➡️
 					<a href="@rule.DestinationUrl" target="_blank">@rule.DestinationUrl</a>
 					(@rule.RedirectType)
