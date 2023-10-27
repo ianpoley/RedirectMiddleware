@@ -16,8 +16,8 @@ public void ConfigureServices(IServiceCollection services)
 		    sp.GetRequiredService<ILogger<RedirectsDataProvider>>())
     );
 
-	// Configure redirect service
-	services.AddRedirectMiddleware(settings =>
+    // Configure redirect service
+    services.AddRedirectMiddleware(settings =>
     {
         // Configure redirect middleware options
 	    settings.Enabled = true;
