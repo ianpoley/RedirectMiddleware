@@ -16,6 +16,12 @@
     "targetUrl": "/products",
     "redirectType": 301,
     "useRelative": true
+  },
+  {
+    "redirectUrl": "/product-directory2",
+    "targetUrl": "/products",
+    "redirectType": 301,
+    "useRelative": true
   }
 ]
 
