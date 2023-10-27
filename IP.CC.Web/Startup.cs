@@ -22,7 +22,7 @@ public class Startup
             // Configure redirect middleware options
 	        settings.Enabled = true;
 	        settings.CacheDurationInMinutes = 1;
-	        settings.SourceUrl = "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json";
+	        settings.RedirectsSourceUrl = "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json";
 		});
 
         services.AddRazorPages();

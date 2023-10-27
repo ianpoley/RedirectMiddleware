@@ -50,15 +50,15 @@ public class RedirectsService : IRedirectsService
     private async Task<IList<RedirectRule>> GetDataFromRestApi()
     {
         // Throw an exception if the source url is blank
-	    if (string.IsNullOrEmpty(Settings.SourceUrl))
+	    if (string.IsNullOrEmpty(Settings.RedirectsSourceUrl))
 	    {
-		    throw new ArgumentException("The SourceUrl cannot be null or empty.", nameof(Settings.SourceUrl));
+		    throw new ArgumentException("The RedirectsSourceUrl cannot be null or empty.", nameof(Settings.RedirectsSourceUrl));
 	    }
 
 		try
         {
             // Send HTTP request
-            var response = await _httpClient.GetAsync(Settings.SourceUrl);
+            var response = await _httpClient.GetAsync(Settings.RedirectsSourceUrl);
             response.EnsureSuccessStatusCode();
 
             // Deserialize JSON
