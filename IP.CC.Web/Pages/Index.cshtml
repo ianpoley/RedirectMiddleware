@@ -1,0 +1,47 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Ian Poley - Redirect Middleware";
+}
+
+<div class="row justify-content-md-center">
+	<div class="col-md-auto">
+		<h1 class="display-5 text-center">
+			Redirect Middleware
+		</h1>
+
+		<br />
+
+		<div class="alert alert-@(Model.IsEnabled ? "success" : "danger")" role="alert">
+			<h4 class="alert-heading">Settings</h4>
+			<ul class="mb-0">
+				<li>
+					<strong>Enabled:</strong>
+					@Model.IsEnabled.ToString().ToLower()
+				</li>
+				<li>
+					<strong>Cache duration:</strong>
+					@Model.CacheDurationInMinutes
+					minute@(Model.CacheDurationInMinutes == 1 ? "" : "s")
+				</li>
+			</ul>
+		</div>
+
+		<br />
+
+		<h3>
+			Redirect Urls:
+		</h3>
+		<ul>
+			@foreach (var rule in Model.RedirectRules)
+			{
+				<li>
+					<a href="@rule.RedirectUrl" target="_blank">@rule.RedirectUrl</a>
+					➡️
+					<a href="@rule.DestinationUrl" target="_blank">@rule.DestinationUrl</a>
+					(@rule.RedirectType)
+				</li>
+			}
+		</ul>
+	</div>
+</div>
