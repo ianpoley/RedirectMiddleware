@@ -18,8 +18,8 @@
     "useRelative": true
   },
   {
-    "redirectUrl": "product-directory2",
-    "targetUrl": "products2",
+    "redirectUrl": "product-directory2/",
+    "targetUrl": "products2/",
     "redirectType": 301,
     "useRelative": true
   }
