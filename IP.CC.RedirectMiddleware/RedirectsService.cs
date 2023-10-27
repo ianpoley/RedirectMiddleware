@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using IP.CC.RedirectMiddleware.Entities;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
@@ -48,7 +49,12 @@ public class RedirectsService : IRedirectsService
 
     private async Task<IList<RedirectRule>> GetDataFromRestApi()
     {
-        try
+	    if (string.IsNullOrEmpty(Settings.SourceUrl))
+	    {
+		    throw new ArgumentException("The SourceUrl cannot be null or empty.", nameof(Settings.SourceUrl));
+	    }
+
+		try
         {
             // Send HTTP request
             var response = await _httpClient.GetAsync(Settings.SourceUrl);

@@ -1,4 +1,6 @@
-﻿namespace IP.CC.RedirectMiddleware;
+﻿using IP.CC.RedirectMiddleware.Entities;
+
+namespace IP.CC.RedirectMiddleware;
 
 public interface IRedirectsService
 {

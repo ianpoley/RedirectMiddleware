@@ -19,7 +19,7 @@ public class Startup
         // Configure redirect service
         services.AddRedirectMiddleware(settings =>
         {
-            // Set options
+            // Configure redirect middleware options
 	        settings.Enabled = true;
 	        settings.CacheDurationInMinutes = 1;
 	        settings.SourceUrl = "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json";

@@ -1,4 +1,5 @@
 ﻿using IP.CC.RedirectMiddleware;
+using IP.CC.RedirectMiddleware.Entities;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace IP.CC.Web.Pages;
