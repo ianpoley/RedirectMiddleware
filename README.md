@@ -2,7 +2,7 @@
 
 ## How to configure
 
-```
+```cs
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddHttpClient();
@@ -28,7 +28,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-```
+```cs
 public void Configure(
     IApplicationBuilder app,
     IWebHostEnvironment env)
