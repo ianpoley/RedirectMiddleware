@@ -40,7 +40,7 @@ public class RedirectsService : IRedirectsService
 			entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(Settings.CacheDurationInMinutes);
 
 			// Query the data source
-			var results = await _redirectsDataProvider.FetchJsonDataAsync();
+			var results = await _redirectsDataProvider.FetchDataAsync();
 
 			_logger.LogInformation($"Cache updated - {results.Count} entries");
 

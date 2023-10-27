@@ -18,9 +18,9 @@ public class Startup
 
         // Register the IRedirectsDataProvider service 
         services.AddSingleton<IRedirectsDataProvider>(sp =>
-	        new RedirectsDataProvider(
+	        new SimpleRedirectsDataProvider(
 		        sp.GetRequiredService<HttpClient>(),
-		        sp.GetRequiredService<ILogger<RedirectsDataProvider>>(),
+		        sp.GetRequiredService<ILogger<SimpleRedirectsDataProvider>>(),
 		        "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json")
 		);
 

@@ -4,23 +4,23 @@ using IP.CC.RedirectMiddleware.Entities;
 
 namespace IP.CC.Web;
 
-public class RedirectsDataProvider : IRedirectsDataProvider
+public class SimpleRedirectsDataProvider : IRedirectsDataProvider
 {
 	private readonly HttpClient _httpClient;
-	private readonly ILogger<RedirectsDataProvider> _logger;
+	private readonly ILogger<SimpleRedirectsDataProvider> _logger;
 	private readonly string _url;
 
-	public RedirectsDataProvider(
+	public SimpleRedirectsDataProvider(
 		HttpClient httpClient,
-		string url,
-		ILogger<RedirectsDataProvider> logger)
+		ILogger<SimpleRedirectsDataProvider> logger,
+		string url)
 	{
 		_httpClient = httpClient;
 		_url = url;
 		_logger = logger;
 	}
 
-	public async Task<IList<RedirectRule>> FetchJsonDataAsync()
+	public async Task<IList<RedirectRule>> FetchDataAsync()
 	{
 		try
 		{

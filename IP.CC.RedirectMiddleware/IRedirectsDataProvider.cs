@@ -4,5 +4,5 @@ namespace IP.CC.RedirectMiddleware;
 
 public interface IRedirectsDataProvider
 {
-	Task<IList<RedirectRule>> FetchJsonDataAsync();
+	Task<IList<RedirectRule>> FetchDataAsync();
 }
