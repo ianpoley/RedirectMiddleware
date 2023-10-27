@@ -16,13 +16,20 @@ public class Startup
         services.AddHttpClient();
         services.AddMemoryCache();
 
-        // Configure redirect service
-        services.AddRedirectMiddleware(settings =>
+        // Register the IRedirectsDataProvider service 
+        services.AddSingleton<IRedirectsDataProvider>(sp =>
+	        new RedirectsDataProvider(
+		        sp.GetRequiredService<HttpClient>(),
+		        sp.GetRequiredService<ILogger<RedirectsDataProvider>>(),
+		        "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json")
+		);
+
+		// Configure redirect service
+		services.AddRedirectMiddleware(settings =>
         {
             // Configure redirect middleware options
 	        settings.Enabled = true;
 	        settings.CacheDurationInMinutes = 1;
-	        settings.RedirectsSourceUrl = "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json";
 		});
 
         services.AddRazorPages();

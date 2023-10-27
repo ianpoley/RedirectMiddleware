@@ -8,14 +8,21 @@ public void ConfigureServices(IServiceCollection services)
     services.AddHttpClient();
     services.AddMemoryCache();
 
-    // Configure redirect service
-    services.AddRedirectMiddleware(settings =>
+    // Register the IRedirectsDataProvider service 
+    services.AddScoped<IRedirectsDataProvider>(sp =>
+	    new RedirectsDataProvider(
+		    sp.GetRequiredService<HttpClient>(),
+		    "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json",
+		    sp.GetRequiredService<ILogger<RedirectsDataProvider>>())
+    );
+
+	// Configure redirect service
+	services.AddRedirectMiddleware(settings =>
     {
-      // Set options
-      settings.SourceUrl = "https://path.to.com/redirects.json"; // Required
-      settings.Enabled = true;
-      settings.CacheDurationInMinutes = 1;
-    });
+        // Configure redirect middleware options
+	    settings.Enabled = true;
+	    settings.CacheDurationInMinutes = 1;
+	});
 
     ... 
 }

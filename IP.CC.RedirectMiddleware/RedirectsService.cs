@@ -8,82 +8,43 @@ namespace IP.CC.RedirectMiddleware;
 
 public class RedirectsService : IRedirectsService
 {
-    private const string CacheKey = "RedirectRules";
+	private const string CacheKey = "RedirectRules";
 
-    private readonly IMemoryCache _cache;
-    private readonly ILogger<RedirectsService> _logger;
-    private readonly HttpClient _httpClient;
+	private readonly IMemoryCache _cache;
+	private readonly IRedirectsDataProvider _redirectsDataProvider;
+	private readonly ILogger<RedirectsService> _logger;
 
-    public RedirectsService(
-        IHttpClientFactory httpClientFactory,
-        IMemoryCache cache,
-        ILogger<RedirectsService> logger,
-        IOptions<RedirectsSettings> redirectsSettings)
-    {
-        _cache = cache;
-        _httpClient = httpClientFactory.CreateClient();
-        _logger = logger;
-        Settings = redirectsSettings.Value;
+	public RedirectsService(
+		IMemoryCache cache,
+		IRedirectsDataProvider redirectsDataProvider,
+		ILogger<RedirectsService> logger,
+		IOptions<RedirectsSettings> redirectsSettings)
+	{
+		_cache = cache;
+		_logger = logger;
+		_redirectsDataProvider = redirectsDataProvider;
 
-        // Build initial cache
-        var redirectResults = GetDataAsync().Result;
-    }
+		Settings = redirectsSettings.Value;
 
-    public RedirectsSettings Settings { get; set; }
+		// Build initial cache
+		var redirectResults = GetDataAsync().Result;
+	}
 
-    public async Task<IList<RedirectRule>> GetDataAsync()
-    {
-        return await _cache.GetOrCreateAsync(CacheKey, async entry =>
-        {
-            // Set cache options
-            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(Settings.CacheDurationInMinutes);
+	public RedirectsSettings Settings { get; set; }
 
-            // Query the data source
-            var results = await GetDataFromRestApi();
+	public async Task<IList<RedirectRule>> GetDataAsync()
+	{
+		return await _cache.GetOrCreateAsync(CacheKey, async entry =>
+		{
+			// Set cache options
+			entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(Settings.CacheDurationInMinutes);
 
-            _logger.LogInformation($"Cache updated - {results.Count} entries");
+			// Query the data source
+			var results = await _redirectsDataProvider.FetchJsonDataAsync();
 
-            return results;
-        }) ?? Enumerable.Empty<RedirectRule>().ToList();
-    }
+			_logger.LogInformation($"Cache updated - {results.Count} entries");
 
-    private async Task<IList<RedirectRule>> GetDataFromRestApi()
-    {
-        // Throw an exception if the source url is blank
-	    if (string.IsNullOrEmpty(Settings.RedirectsSourceUrl))
-	    {
-		    throw new ArgumentException("The RedirectsSourceUrl cannot be null or empty.", nameof(Settings.RedirectsSourceUrl));
-	    }
-
-		try
-        {
-            // Send HTTP request
-            var response = await _httpClient.GetAsync(Settings.RedirectsSourceUrl);
-            response.EnsureSuccessStatusCode();
-
-            // Deserialize JSON
-            var json = await response.Content.ReadAsStringAsync();
-            var results = JsonSerializer.Deserialize<IList<RedirectRule>>(json);
-
-            _logger.LogInformation("Redirects successfully fetched from API");
-
-            return results == null 
-	            ? Enumerable.Empty<RedirectRule>().ToList() 
-	            : results.DistinctBy(i => i.RedirectUrl).ToList();
-        }
-        catch (HttpRequestException e)
-        {
-            _logger.LogError(e, "An error occurred while sending the HTTP request.");
-        }
-        catch (JsonException e)
-        {
-            _logger.LogError(e, "An error occurred while deserializing the JSON response.");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "An unexpected error occurred.");
-        }
-
-        return Enumerable.Empty<RedirectRule>().ToList();
-    }
+			return results;
+		}) ?? Enumerable.Empty<RedirectRule>().ToList();
+	}
 }
