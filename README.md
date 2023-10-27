@@ -14,7 +14,7 @@ public void ConfigureServices(IServiceCollection services)
       // Set options
       settings.Enabled = true;
       settings.CacheDurationInMinutes = 1;
-      settings.SourceUrl = "https://raw.githubusercontent.com/ianpoley/RedirectMiddleware/main/redirects.json";
+      settings.SourceUrl = "https://path.to.com/redirects.json";
     });
 
     ... 
