@@ -4,13 +4,24 @@ namespace IP.CC.RedirectMiddleware.Entities;
 
 public class RedirectRule
 {
-    [JsonPropertyName("redirectUrl")]
-    public required string RedirectUrl { get; set; }
+	private string _redirectUrl = "";
+	private string _targetUrl = "";
 
-    [JsonPropertyName("targetUrl")]
-    public required string TargetUrl { get; set; }
+	[JsonPropertyName("redirectUrl")]
+    public required string RedirectUrl
+    {
+	    get => _redirectUrl.EnsurePrefix('/').TrimEnd('/');
+	    set => _redirectUrl = value;
+    }
 
-    [JsonPropertyName("redirectType")]
+	[JsonPropertyName("targetUrl")]
+    public required string TargetUrl
+    {
+	    get => _targetUrl.EnsurePrefix('/').TrimEnd('/');
+	    set => _targetUrl = value;
+    }
+
+	[JsonPropertyName("redirectType")]
     public int RedirectType { get; set; }
 
     [JsonPropertyName("useRelative")]

@@ -26,4 +26,12 @@ public static class Extensions
 
 		return services;
 	}
+
+	public static string EnsurePrefix(this string source, char prefix)
+	{
+		if (!source.StartsWith(prefix))
+			return prefix + source;
+
+		return source;
+	}
 }
